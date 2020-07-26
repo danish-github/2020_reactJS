@@ -1,7 +1,22 @@
+"use strict";
+
 console.log("app is running");
 
-var template = <p>this is jsx</p> ;
+var template = React.createElement(
+  "div",
+  null,
+  React.createElement(
+    "p",
+    null,
+    "indecision app"
+  ),
+  React.createElement(
+    "p",
+    null,
+    "some info"
+  )
+);
 
-var appRoot= document.getElementById('app');
+var appRoot = document.getElementById('app');
 
-ReactDOM.render(tempalte);
+ReactDOM.render(template, appRoot);
