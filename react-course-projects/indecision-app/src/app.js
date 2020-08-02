@@ -1,46 +1,57 @@
-console.log("app is running");
+console.log( "app is running");
+
 
 const app = {
-    title: ' some title',
-    subtitle: ' this is my subtitle' ,
-    options : ['one', 'two']
+    title : 'Indecision app',
+    subtitle: 'put your life in hands of computer',
+    options:[]
 }
 
-const template = (
-    <div>
-        <h1>{app.title}</h1>
-        {app.subtitle && <p> subtitle {app.subtitle} </p>}
-        { app.options.length > 0 ? "here are options"  : 'no options'}
-        <ol>
-            <li>Item one</li>
-            <li>Item two</li>
-        </ol>
-    </div> 
-);
+const onFormSubmit = (e) => {
+    e.preventDefault();
 
-const user = {
-     name: 'andrew',
-     age:26,
-     location:'phila'
-     
+    const option = e.target.elements.option.value;
+
+    if (option) {
+        app.options.push(option);
+        e.target.elements.option.value ='';
+        render();
+    }
+
+};
+
+
+const onRemoveAll = () => {
+    app.options = [];
+    render();
 }
 
-function getLocation(location){
-    if (location) {
-        return <p>localtion : {location}</p> ;
-    } 
-    
+const appRoot = document.getElementById('app');
+
+const render = () => {
+    const template = (
+        <div>
+            <h1> {app.title}</h1>
+            { app.subtitle && <p> subtitle : { app.subtitle}</p>}
+            {app.options.length > 0 ? 'Here are options' : 'no options'}
+            <p>{app.options.length}</p>
+            <button onClick={onRemoveAll}>RemoveAll</button>
+            <ol>
+                {
+                    app.options.map((option)=>{
+                        return <li key={option}>option:{option}</li>
+                    })
+                }
+            </ol>
+            <form onSubmit={onFormSubmit}>
+                <input type="text" name="option" />
+                <button> Add Option</button>
+                
+            </form>
+        </div>
+    );
+
+    ReactDOM.render(template, appRoot);
 }
 
-
-const templateTwo = (
-    <div>
-        <h1> {user.name ? user.name : 'Anonymous' }</h1>
-        {(user.age && user.age > 18 ) && <p> Age: {user.age} </p>}
-        {getLocation(user.location)}
-    </div>
-)
-
-const appRoot= document.getElementById('app');
-
-ReactDOM.render(template,appRoot);
+render();
